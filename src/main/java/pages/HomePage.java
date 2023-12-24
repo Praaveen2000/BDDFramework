@@ -5,15 +5,22 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import factory.BrowserFactory;
+import utilities.elementUtils;
+
 public class HomePage {
 	
 	WebDriver driver;
+	
+	elementUtils utils;
 	
 	public HomePage(WebDriver driver)
 	{
 		this.driver = driver;
 		
 		PageFactory.initElements(driver, this);
+		
+		utils = new elementUtils(driver);
 	}
 	
 	@FindBy(xpath="//span[text()='My Account']")
@@ -24,20 +31,24 @@ public class HomePage {
 	
 	public void clickOnMyAccount() 
 	{
-		myAccountDropDown.click();
+		utils.clickOnElement(myAccountDropDown, BrowserFactory.EXPLICIT_WAIT_TIME);
 	}
 	
-	public void clickOnLogin()
+	public LoginPage clickOnLogin()
 	{
-		loginBtn.click();
+		utils.clickOnElement(loginBtn, BrowserFactory.EXPLICIT_WAIT_TIME);
+		
+		return new LoginPage(driver);
 	}
 	
 	@FindBy(linkText="Register")
 	private WebElement registerBtn;
 	
-	public void clickOnRegister()
+	public RegisterPage clickOnRegister()
 	{
-		registerBtn.click();
+		utils.clickOnElement(registerBtn, BrowserFactory.EXPLICIT_WAIT_TIME);
+		
+		return new RegisterPage(driver);
 	}
 	
 	@FindBy(name="search")
@@ -45,15 +56,17 @@ public class HomePage {
 	
 	public void enterSearchBoxField(String product)
 	{
-		searchBox.sendKeys(product);
+		utils.sendTextToElement(searchBox, BrowserFactory.EXPLICIT_WAIT_TIME, product);
 	}
 	
 	@FindBy(xpath="//span[@class='input-group-btn']/button")
 	private WebElement searchBtn;
 	
-	public void clickSearchBtn()
+	public SearchResultsPage clickSearchBtn()
 	{
-		searchBtn.click();
+		utils.clickOnElement(searchBtn, BrowserFactory.EXPLICIT_WAIT_TIME);
+		
+		return new SearchResultsPage(driver);
 	}
 
 }

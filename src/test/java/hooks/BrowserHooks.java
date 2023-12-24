@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import factory.BrowserFactory;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import utilities.Utilities;
 
 public class BrowserHooks {
@@ -16,20 +17,21 @@ public class BrowserHooks {
 	@Before
 	public void setup()
 	{
-		BrowserFactory.initialiseBrowser(Utilities.readFromProperties("browserName")); 
-		
-		driver = BrowserFactory.getDriver();
-		
-		driver.manage().window().maximize();
-		
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-		
-		driver.get(Utilities.readFromProperties("url"));
+		driver = BrowserFactory.initialiseBrowser(Utilities.readFromProperties("browserName"));  
 	}
 	
 	@After
-	public void tearDown()
+	public void tearDown(Scenario scenario)
 	{
+		if(scenario.isFailed())
+		{
+			Utilities.getScreenShot(driver);
+			
+			byte[] testScreenShot = Utilities.getScreenShotAsBytes(driver);
+			
+			scenario.attach(testScreenShot, "image/png", scenario.getName()); 
+		}
+		
 		driver.quit();
 	}
 

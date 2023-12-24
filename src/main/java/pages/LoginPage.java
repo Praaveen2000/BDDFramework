@@ -1,20 +1,26 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import factory.BrowserFactory;
+import utilities.elementUtils;
+
 public class LoginPage {
 	
 	WebDriver driver;
+	
+	elementUtils utils;
 	
 	public LoginPage(WebDriver driver)
 	{
 		this.driver = driver;
 		
 		PageFactory.initElements(driver, this);
+		
+		utils = new elementUtils(driver);
 	}
 	
 	@FindBy(xpath="//input[@name='email']")
@@ -22,7 +28,7 @@ public class LoginPage {
 	
 	public void enterEmail(String email)
 	{
-		emailField.sendKeys(email);
+		utils.sendTextToElement(emailField, BrowserFactory.EXPLICIT_WAIT_TIME, email);
 	}
 	
 	@FindBy(xpath="//input[@name='password']")
@@ -30,20 +36,22 @@ public class LoginPage {
 	
 	public void enterPassword(String pass)
 	{
-		passwordField.sendKeys(pass);
+		utils.sendTextToElement(passwordField, BrowserFactory.EXPLICIT_WAIT_TIME, pass);
 	}
 	
 	@FindBy(xpath="//input[@value='Login']")
 	private WebElement loginBtn;
 	
-	public void clickOnLogin()
+	public AccountPage clickOnLogin()
 	{
-		loginBtn.click();
+		utils.clickOnElement(loginBtn, BrowserFactory.EXPLICIT_WAIT_TIME);
+		
+		return new AccountPage(driver);
 	}
 	
 	public boolean displayStatusOfLoginBtn()
 	{
-		return loginBtn.isDisplayed();
+		return utils.elementIsDisplayed(loginBtn, BrowserFactory.EXPLICIT_WAIT_TIME);
 	}
 	
 	@FindBy(css="div[class*='alert']")
@@ -51,7 +59,7 @@ public class LoginPage {
 	
 	public boolean displayStatusOfWarnMsg()
 	{
-		return warnMsgHeader.isDisplayed();
+		return utils.elementIsDisplayed(warnMsgHeader, BrowserFactory.EXPLICIT_WAIT_TIME);
 	}
 	
 

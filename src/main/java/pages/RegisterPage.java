@@ -5,15 +5,22 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import factory.BrowserFactory;
+import utilities.elementUtils;
+
 public class RegisterPage {
 	
 	WebDriver driver;
+	
+	elementUtils utils;
 	
 	public RegisterPage(WebDriver driver)
 	{
 		this.driver = driver;
 		
 		PageFactory.initElements(driver, this);
+		
+		utils = new elementUtils(driver);
 	}
 	
 	@FindBy(id="input-firstname")
@@ -36,7 +43,7 @@ public class RegisterPage {
 	
 	public void enterFirstName(String firstName)
 	{
-		firstNameField.sendKeys(firstName);
+		utils.sendTextToElement(firstNameField, BrowserFactory.EXPLICIT_WAIT_TIME, firstName);
 	}
 	
 	@FindBy(xpath="//input[@id='input-firstname']//following-sibling::div")
@@ -44,12 +51,12 @@ public class RegisterPage {
 	
 	public String getFirstNameWarnMsg()
 	{
-		return firstNameWarnMsg.getText();
+		return utils.getTextOfElement(firstNameWarnMsg, BrowserFactory.EXPLICIT_WAIT_TIME);
 	}
 	
 	public void enterLastName(String lastName)
 	{
-		lastNameField.sendKeys(lastName);
+		utils.sendTextToElement(lastNameField, BrowserFactory.EXPLICIT_WAIT_TIME, lastName);
 	}
 	
 	@FindBy(xpath="//input[@id='input-lastname']//following-sibling::div")
@@ -57,12 +64,12 @@ public class RegisterPage {
 	
 	public String getLastNameWarnMsg()
 	{
-		return lastNameWarnMsg.getText();
+		return utils.getTextOfElement(lastNameWarnMsg, BrowserFactory.IMPLICIT_WAIT_TIME);
 	}
 	
 	public void enterEmail(String email)
 	{
-		emailField.sendKeys(email);
+		utils.sendTextToElement(emailField, BrowserFactory.EXPLICIT_WAIT_TIME, email);
 	}
 	
 	@FindBy(xpath="//input[@id='input-email']//following-sibling::div")
@@ -70,12 +77,12 @@ public class RegisterPage {
 	
 	public String getEmailWarnMsg()
 	{
-		return emailWarnMsg.getText();
+		return utils.getTextOfElement(emailWarnMsg, BrowserFactory.EXPLICIT_WAIT_TIME);
 	}
 	
 	public void enterTelephone(String telephone)
 	{
-		telephoneField.sendKeys(telephone);
+		utils.sendTextToElement(telephoneField, BrowserFactory.EXPLICIT_WAIT_TIME, telephone);
 	}
 	
 	@FindBy(xpath="//input[@id='input-telephone']//following-sibling::div")
@@ -83,12 +90,12 @@ public class RegisterPage {
 	
 	public String getTelephoneWarnMsg()
 	{
-		return telephoneWarnMsg.getText();
+		return utils.getTextOfElement(telephoneWarnMsg, BrowserFactory.EXPLICIT_WAIT_TIME);
 	}
 	
 	public void enterPassword(String password)
 	{
-		passwordField.sendKeys(password);
+		utils.sendTextToElement(passwordField, BrowserFactory.EXPLICIT_WAIT_TIME, password);
 	}
 	
 	@FindBy(xpath="//input[@id='input-password']//following-sibling::div")
@@ -96,12 +103,12 @@ public class RegisterPage {
 	
 	public String getPasswordWarnMsg()
 	{
-		return passwordWarnMsg.getText();
+		return utils.getTextOfElement(passwordWarnMsg, BrowserFactory.EXPLICIT_WAIT_TIME);
 	}
 	
 	public void enterConfirmPassword(String lastName)
 	{
-		confirmPasswordField.sendKeys(lastName);
+		utils.sendTextToElement(confirmPasswordField, BrowserFactory.EXPLICIT_WAIT_TIME, lastName);
 	}
 	
 	@FindBy(xpath="//input[@name='agree']")
@@ -109,15 +116,17 @@ public class RegisterPage {
 	
 	public void clickPrivacyPolicy()
 	{
-		agreePrivacyPolicy.click();
+		utils.clickOnElement(agreePrivacyPolicy, BrowserFactory.EXPLICIT_WAIT_TIME);
 	}
 	
 	@FindBy(xpath="//input[@value='Continue']")
 	private WebElement continueBtn;
 	
-	public void clickOnContinue()
+	public AccountSuccessPage clickOnContinue()
 	{
-		continueBtn.click();
+		utils.clickOnElement(continueBtn, BrowserFactory.EXPLICIT_WAIT_TIME);
+		
+		return new AccountSuccessPage(driver);
 	}
 	
 	@FindBy(xpath="//input[@name='newsletter' and @value='1']")
@@ -125,7 +134,7 @@ public class RegisterPage {
 	
 	public void clickYesForNewsLetter()
 	{
-		yesForNewsLetter.click();
+		utils.clickOnElement(yesForNewsLetter, BrowserFactory.EXPLICIT_WAIT_TIME);
 	}
 	
 	@FindBy(xpath="//div[@id='content']/h1")
@@ -133,7 +142,7 @@ public class RegisterPage {
 	
 	public String getRegisterPageHeaderText()
 	{
-		return registerPageHeader.getText();
+		return utils.getTextOfElement(registerPageHeader, BrowserFactory.EXPLICIT_WAIT_TIME);
 	}
 	
 	@FindBy(css="div[class*='alert']")
@@ -141,14 +150,7 @@ public class RegisterPage {
 	
 	public String getWarnMsgText()
 	{
-		return warnMsgHeader.getText();
+		return utils.getTextOfElement(warnMsgHeader, BrowserFactory.EXPLICIT_WAIT_TIME);
 	}
 	
-	
-	
-	
-	
-	
-	
-
 }
